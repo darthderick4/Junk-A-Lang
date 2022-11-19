@@ -1,0 +1,510 @@
+{% extends 'head.html' %} {% block content %}
+<style type="text/css">
+  /* label {
+    width: 150px;
+    display: inline-block;
+    margin: 4px;
+  } */
+  #form {
+    border-radius: 10px;
+    width: 100%;
+    padding: 4px;
+    text-align: center;
+  }
+  #submit {
+    width: 10%;
+    height: 50px;
+    font-size: 2vh;
+  }
+  .column {
+    float: left;
+    width: 50%;
+  }
+
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+</style>
+
+<!-- modal style -->
+<style>
+  .modal,
+  .modal-update,
+  .modal-add {
+    text-align: center;
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  .modalContent,
+  .modalContent-update,
+  .modalContent-add {
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+  .close {
+    color: rgb(255, 65, 65);
+    float: right;
+    font-size: 40px;
+    font-weight: bold;
+  }
+  .close:hover,
+  .close:focus {
+    color: #ff1010;
+    cursor: pointer;
+  }
+  .modalContent button,
+  .modalContent-update button,
+  .modalContent-add button {
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px;
+  }
+  .del {
+    background-color: rgb(255, 65, 65);
+  }
+  .del:hover {
+    background-color: rgb(255, 7, 7);
+  }
+  .update,
+  .add {
+    background-color: #05649b;
+  }
+  .update,
+  .add:hover {
+    background-color: #054a72;
+  }
+  .cancel:hover {
+    background-color: rgb(167, 167, 167);
+  }
+</style>
+<!-- end modal style -->
+
+<!-- modal -->
+<div class="modal-add">
+  <div class="modalContent-add">
+    <span class="close"> </span>
+    <p>Add Category</p>
+    <br />
+    <form action="" method="POST" id="add-form">
+      <label style="margin-right: 10px">Category Name:</label>
+      <input type="text" name="category-add" />
+      <br />
+      <br />
+      <label style="margin-right: 120px">Price:</label>
+      <input type="text" name="price-add" />
+      <br />
+      <br />
+      <a href=""
+        ><button
+          class="cancel"
+          onclick="hideModalAdd()"
+          style="margin-right: 10px"
+        >
+          Cancel
+        </button></a
+      >
+      <a href="" id="link-add">
+        <button
+          class="add"
+          onclick="hideModalAdd()"
+          value="submit"
+          name="submit"
+          type="submit"
+        >
+          Add Category
+        </button>
+      </a>
+    </form>
+  </div>
+</div>
+<!-- end-modal -->
+
+<h3 class="i-name">Price</h3>
+<div class="values">
+  {% with messages = get_flashed_messages()%} {% if messages %}
+  <div
+    class="alert alert-success d-flex align-items-center flashes"
+    role="alert"
+  >
+    {%for message in messages%} {{message}} {%endfor%}
+  </div>
+  {%endif%} {%endwith%}
+  <!-- button add -->
+
+  <!-- end add -->
+  <!-- modal delete -->
+  <div class="modal">
+    <div class="modalContent">
+      <!-- <span class="close">&times;</span> -->
+      <span class="close"></span>
+      <p>Are you sure you want to delete this CATEGORY</p>
+      <br />
+      <form action="" method="POST" id="delete-form">
+        <input type="hidden" value="" name="item-value-cat" id="valID" />
+        <p id="name-value"></p>
+        <br />
+        <button class="cancel" onclick="hideModal()" style="margin-right: 10px">
+          Cancel
+        </button>
+        <a href="" id="link-del"
+          ><button
+            value="submit"
+            name="submit"
+            type="submit"
+            class="del"
+            onclick="hideModal()"
+          >
+            Delete Category
+          </button></a
+        >
+      </form>
+    </div>
+  </div>
+  <!-- end modal -->
+
+  <!-- table -->
+  <table class="display dataTable content-table" id="example">
+    <button
+      id="add-category"
+      class="pill-green pill"
+      style="margin-bottom: 20px"
+    >
+      Add Category
+    </button>
+    <br />
+    <thead>
+      <tr>
+        <th style="text-align: center">Category</th>
+        <th style="text-align: center">Price</th>
+        <th style="text-align: center">Action</th>
+        <!-- <th>Update</th>
+        <th>Delete</th> -->
+      </tr>
+    </thead>
+    <tbody>
+      <!-- modal-update -->
+      <div class="modal-update">
+        <div class="modalContent-update">
+          <span class="close"></span>
+          <p>Update Price</p>
+          <form action="" method="POST" id="update-form">
+            <input type="hidden" id="item-price" name="item_cat" value="" />
+            <label for="" style="margin-right: 10px" id="category"
+              >{{item}}</label
+            >
+            <input type="text" name="update" id="price" value="" />
+            <p id="name-value"></p>
+            <br />
+            <a href=""
+              ><button
+                class="cancel"
+                onclick="hideModalUpdate()"
+                style="margin-right: 10px"
+              >
+                Cancel
+              </button></a
+            >
+            <a href="" id="link-update"
+              ><button
+                class="update"
+                onclick="hideModalUpdate()"
+                type="submit"
+                value="submit"
+                name="submit"
+                type="submit"
+              >
+                Update Price
+              </button></a
+            >
+          </form>
+        </div>
+      </div>
+      <!-- end modal-update -->
+      {%for category in db_category%}
+      <!-- for item in category.val() -->
+      <tr>
+        <!-- {{item}} -->
+        <td style="text-align: center">{{category.key()}}</td>
+        <!-- {{category.val()[item]}} -->
+        <td style="text-align: center">{{category.val()}}</td>
+        <td style="text-align: center">
+          <div>
+            <!-- update price -->
+            <button
+              id="{{category.key()}}-price"
+              style="margin-right: 10px"
+              class="pill-green pill"
+              value="update"
+              name="submit"
+            >
+              Edit
+            </button>
+            <script>
+              var modal_update = document.querySelector(".modal-update");
+              var btn = document.getElementById("{{category.key()}}-price");
+              var span = document.querySelector(".close");
+              var update = document.querySelector(".update");
+              btn.addEventListener("click", () => {
+                var item_price = (document.getElementById("item-price").value =
+                  "{{category.key()}}");
+                // console.log(item_price);
+                // console.log("Item: {{category.key()}}");
+                // console.log("Item: {{category.val()}}");
+                var link_update = document.getElementById("link-update");
+                var update_form = document.getElementById("update-form");
+                // document.getElementById('item-price').value
+                modal_update.style.display = "block";
+                document.getElementById("price").value =
+                  "{{category.val()[item]}}";
+                link_update.href = "/price_update";
+                update_form.action = "/price_update";
+                document.getElementById("category").innerHTML =
+                  "{{category.key()}}";
+              });
+              span.addEventListener("click", () => {
+                hideModal();
+              });
+              function hideModalUpdate() {
+                modal_update.style.display = "none";
+              }
+              window.onclick = function (event) {
+                if (event.target == modal) {
+                  hideModal();
+                }
+              };
+            </script>
+            <button
+              id="{{category.key()}}"
+              class="pill-delete pill"
+              value="delete"
+              name="submit"
+            >
+              Delete
+            </button>
+            <!-- modal delete -->
+            <script>
+              var modal = document.querySelector(".modal");
+              var btn = document.getElementById("{{category.key()}}");
+              var span = document.querySelector(".close");
+              btn.addEventListener("click", () => {
+                var item = "{{category.key()}}";
+                var link = document.getElementById("link-del");
+                var fAction = document.getElementById("delete-form");
+                document.getElementById("name-value").innerHTML = item;
+                var wew = (document.getElementById("valID").value = item);
+                // console.log(wew);
+                fAction.action = "category_del";
+                modal.style.display = "block";
+                link.href = "category_del";
+                // console.log(data);
+              });
+              span.addEventListener("click", () => {
+                hideModal();
+              });
+              function hideModal() {
+                modal.style.display = "none";
+              }
+              window.onclick = function (event) {
+                if (event.target == modal) {
+                  hideModal();
+                }
+              };
+            </script>
+            <!-- end modal -->
+          </div>
+        </td>
+        <!-- <td></td>
+        <td></td> -->
+      </tr>
+      {%endfor%}
+      <!-- endfor -->
+    </tbody>
+  </table>
+  <!-- end table -->
+  <!-- old -->
+
+  <!-- <div class="row" id="form">
+    <form action="" method="POST">
+      {%for price in db_price%} -->
+
+  <!-- 1 -->
+
+  <!-- <div class="column">
+        <label for="p_bottle">Plastic Bottles</label>
+        <input
+          type="text"
+          name="p_bottle"
+          value="{{price.val()['plastic_bottle']}}"
+        />
+        <br />
+        <br />
+        <label for="c_bottle">Clean Plastic Bottles</label>
+        <input
+          type="text"
+          name="c_bottle"
+          value="{{price.val()['clean_bottle']}}"
+        />
+        <br />
+        <br />
+        <label for="g_bottles">Glass Bottles</label>
+        <input
+          type="text"
+          name="g_bottle"
+          value="{{price.val()['glass_bottle']}}"
+        />
+        <br />
+        <br />
+        <label for="white_paper">White Paper</label>
+        <input
+          type="text"
+          name="white_paper"
+          value="{{price.val()['white_paper']}}"
+        />
+        <br />
+        <br />
+        <label for="carton">Carton/Box</label>
+        <input type="text" name="carton" value="{{price.val()['carton']}}" />
+        <br />
+        <br />
+        <label for="metal">Iron/Yero</label>
+        <input type="text" name="metal" value="{{price.val()['metal']}}" />
+        <br />
+        <br />
+        <label for="copper">Copper</label>
+        <input type="text" name="copper" value="{{price.val()['copper']}}" />
+        <br />
+        <br />
+        <label for="mobo">Computer Parts</label>
+        <input type="text" name="mobo" value="{{price.val()['mobo']}}" />
+        <br />
+        <br />
+      </div> -->
+
+  <!-- 2 -->
+
+  <!-- <div class="column">
+        <label for="m_box">Cartolina</label>
+        <input type="text" name="m_box" value="{{price.val()['cartolina']}}" />
+        <br />
+        <br />
+        <label for="magazine">Magazines</label>
+        <input
+          type="text"
+          name="magazine"
+          value="{{price.val()['magazine']}}"
+        />
+        <br />
+        <br />
+        <label for="cans">Aluminum Cans</label>
+        <input type="text" name="cans" value="{{price.val()['cans']}}" />
+        <br />
+        <br />
+        <label for="plastic">Hard Plastics</label>
+        <input type="text" name="plastic" value="{{price.val()['plastic']}}" />
+        <br />
+        <br />
+        <label for="newspaper">Newspaper</label>
+        <input
+          type="text"
+          name="newspaper"
+          value="{{price.val()['newspaper']}}"
+        />
+        <br />
+        <br />
+        <label for="cd">CDs</label>
+        <input type="text" name="cd" value="{{price.val()['cd']}}" />
+        <br />
+        <br />
+        <label for="e_waste">E-Waste</label>
+        <input type="text" name="e_waste" value="{{price.val()['e_waste']}}" />
+        <br />
+        <br />
+        <label for="diskette">Diskette</label>
+        <input
+          type="text"
+          name="diskette"
+          value="{{price.val()['diskette']}}"
+        />
+        <br />
+        <br />
+        <label for="ink_cartridge">Ink jet cartridge</label>
+        <input
+          type="text"
+          name="ink_cartridge"
+          value="{{price.val()['ink_cartridge']}}"
+        />
+        <br />
+        <br />
+      </div>
+      {%endfor%}
+      <button type="submit" name="submit" class="pill-green pill">
+        Update Price
+      </button>
+    </form>
+  </div> -->
+
+  <!-- <div id="form"></div> -->
+</div>
+
+<script>
+  $("div.alert-success").fadeIn(300).delay(1500).fadeOut(600);
+</script>
+<script>
+  $(document).ready(function () {
+    $("#example").DataTable({
+      aLengthMenu: [
+        [10, 20, 40, -1],
+        [10, 20, 40],
+      ],
+      iDisplayLength: 10,
+    });
+  });
+</script>
+
+<script>
+  var modal_add = document.querySelector(".modal-add");
+  var add = document.getElementById("add-category");
+  var span = document.querySelector(".close");
+  add.addEventListener("click", () => {
+    // console.log("add");
+    var link_add = document.getElementById("link-add");
+    var add_form = document.getElementById("add-form");
+    link_add.href = "/add_category";
+    add_form.action = "/add_category";
+    modal_add.style.display = "block";
+  });
+  span.addEventListener("click", () => {
+    hideModalAdd();
+  });
+  function hideModalAdd() {
+    modal.style.display = "none";
+  }
+  window,
+    (onclick = function (event) {
+      if (event.target == modal) {
+        hideModalAdd();
+      }
+    });
+</script>
+
+<!-- modal comment -->
+
+<!-- end modal comment -->
+{% endblock %}

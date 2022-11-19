@@ -1,0 +1,192 @@
+{% extends 'head.html' %} {% block content %}
+<!-- modal -->
+<style>
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  .modal {
+    text-align: center;
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  .modalContent {
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+  .close {
+    color: rgb(255, 65, 65);
+    float: right;
+    font-size: 40px;
+    font-weight: bold;
+  }
+  .close:hover,
+  .close:focus {
+    color: #ff1010;
+    cursor: pointer;
+  }
+  .modalContent button {
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px;
+  }
+  .del {
+    background-color: rgb(255, 65, 65);
+  }
+  .del:hover {
+    background-color: rgb(255, 7, 7);
+  }
+  .cancel:hover {
+    background-color: rgb(167, 167, 167);
+  }
+</style>
+<!-- end style modal -->
+
+<h3 class="i-name">Users</h3>
+<div class="values">
+  {% with messages = get_flashed_messages()%} {% if messages %}
+  <div
+    class="alert alert-success d-flex align-items-center flashes"
+    role="alert"
+  >
+    {%for message in messages%} {{message}} {%endfor%}
+  </div>
+  {%endif%} {%endwith%}
+  <table class="display dataTable content-table" id="example">
+    <thead>
+      <tr>
+        <th style="text-align: center">Email</th>
+        <th style="text-align: center">Name</th>
+        <td style="text-align: center">Category</td>
+        <!-- <th>View</th> -->
+        <th style="text-align: center">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- modal -->
+      <div class="modal">
+        <div class="modalContent">
+          <!-- <span class="close">&times;</span> -->
+          <span class="close"></span>
+          <p>Are you sure you want to delete this ACCOUNT</p>
+          <br />
+          <p id="name-value"></p>
+          <br />
+          <button
+            class="cancel"
+            onclick="hideModal()"
+            style="margin-right: 10px"
+          >
+            Cancel
+          </button>
+          <a href="" id="link-del"
+            ><button class="del" onclick="hideModal()">
+              Delete Account
+            </button></a
+          >
+        </div>
+      </div>
+      <!-- end modal -->
+      {% for name in names %}
+      <tr>
+        <form action="/user_details" method="POST">
+          <input
+            type="hidden"
+            name="fname"
+            value="{{name.val()['firstname']}}"
+          />
+          <input
+            type="hidden"
+            name="lname"
+            value="{{name.val()['lastname']}}"
+          />
+          <input
+            type="hidden"
+            name="user_mail"
+            value="{{name.val()['email']}}"
+          />
+          <input
+            type="hidden"
+            name="user_category"
+            value="{{name.val()['categories']}}"
+          />
+          <td id="{{name.val()['email']}}">{{name.val()['email']}}</td>
+          <td>{{name.val()['firstname']}} {{name.val()['lastname']}}</td>
+          <td>{{name.val()['categories']}}</td>
+        </form>
+        <td>
+          <!-- modal -->
+          <!-- Button trigger modal -->
+          <button
+            class="pill-delete pill"
+            type="button"
+            id="{{name.key()}}"
+            data-toggle="modal"
+            data-target="#exampleModal"
+          >
+            Delete
+          </button>
+
+          <!-- modal -->
+          <script>
+            var modal = document.querySelector(".modal");
+            var btn = document.getElementById("{{name.key()}}");
+            var span = document.querySelector(".close");
+            btn.addEventListener("click", () => {
+              console.log("{{name.val()['email']}}");
+              console.log("{{name.key()}}");
+              var email = "{{name.val()['email']}}";
+              var link = document.getElementById("link-del");
+              link.href = "user_del/{{name.key()}}";
+              modal.style.display = "block";
+              document.getElementById("name-value").innerHTML = email;
+            });
+            span.addEventListener("click", () => {
+              hideModal();
+            });
+            function hideModal() {
+              modal.style.display = "none";
+            }
+            window.onclick = function (event) {
+              if (event.target == modal) {
+                hideModal();
+              }
+            };
+          </script>
+          <!-- end modal -->
+        </td>
+        <!-- <a href="user_del/{{name.key()}}"
+                ><button class="del" onclick="hideModal()">
+                  Delete Item
+                </button></a
+              > -->
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $("#example").DataTable();
+  });
+</script>
+
+<script>
+  $("div.alert-success").fadeIn(300).delay(1500).fadeOut(400);
+</script>
+
+{% endblock %}

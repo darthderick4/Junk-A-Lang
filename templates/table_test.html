@@ -1,0 +1,59 @@
+{%extends 'head.html'%}{%block content%}
+<div class="values">
+  <table id="example" class="display dataTable" style="width: 100%">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Post Description</th>
+        <th>Date</th>
+        <th>View</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for name in names %} {% if "Post" in name.val() %} {% for key in
+      post_key %} {% if key in name.val()['Post']%}
+      <tr>
+        <td>{{name.val()['email']}}</td>
+        <td>{{name.val()['Post'][key]['description']}}</td>
+        <td>{{name.val()['Post'][key]['date']}}</td>
+        <td><button class="pill-green pill">View</button></td>
+        <td><button class="pill-delete pill">Delete</button></td>
+      </tr>
+      {% endif %} {% endfor %} {% endif %} {% endfor %}
+    </tbody>
+  </table>
+  <script>
+    $(document).ready(function () {
+      $("#example").DataTable();
+    });
+  </script>
+</div>
+
+{% endblock %}
+
+<!-- inside script -->
+<!-- $(document).ready(function () {
+      var empDataTable = $("#example").DataTable({
+        processing: true,
+        serverSide: true,
+        serverMethod: "post",
+        ajax: {
+          url: "/test",
+        },
+        lenghtMenu: [
+          [5, 10, 25, 50, -1],
+          [5, 10, 25, 50, "All"],
+        ],
+        searching: true,
+        sort: false,
+        serverSide: true,
+        columns: [
+          { data: "name" },
+          { data: "position" },
+          { data: "age" },
+          { data: "salary" },
+          { data: "office" },
+        ],
+      });
+    }); -->

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>Junk-A-Lang</title>
+    <!-- icon -->
+    <link
+      rel="icon"
+      href="{{url_for('static',filename='../static/img/truck.png')}}"
+    />
+    <!-- bootstrap -->
+
+    <!-- font awesome -->
+    <script
+      src="https://kit.fontawesome.com/a391764b56.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Boxicons CDN Link -->
+    <link
+      href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <!-- <script src="https://code.iconify.design/iconify-icon/1.0.0-beta.3/iconify-icon.min.js"></script> -->
+    <!-- Table -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"
+    ></script>
+    <!-- <script
+      src="//cdn.datatables.net/plug-ins/1.10.11/sorting/date-eu.js"
+      type="text/javascript"
+    ></script> -->
+    <!-- style sheet -->
+    <link rel="stylesheet" href="static/styles/style2.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="logo-details">
+        <!-- <i class="bx bxl-c-plus-plus icon"></i> -->
+        <img
+          class="icon"
+          src="../static/img/truck.png"
+          alt=""
+          style="width: 60px; height: 60px"
+        />
+        <div class="logo_name">Junk-A-Lang</div>
+        <i class="bx bx-menu" id="btn"></i>
+      </div>
+      <ul class="nav-list">
+        <li>
+          <a href="/dashboard">
+            <i class="bx bx-grid-alt"></i>
+            <span class="links_name">Dashboard</span>
+          </a>
+          <span class="tooltip">Dashboard</span>
+        </li>
+        <li>
+          <a href="/pending">
+            <i class="bx bx-list-ul"></i>
+            <span class="links_name">Pending Post</span>
+          </a>
+          <span class="tooltip">Pending Post</span>
+        </li>
+        <li>
+          <a href="/posted">
+            <i class="bx bx-pie-chart-alt-2"></i>
+            <span class="links_name">Posted Junk</span>
+          </a>
+          <span class="tooltip">Posted Junk</span>
+        </li>
+        <li>
+          <a href="/reported_post">
+            <i class="bx bx-folder"></i>
+            <span class="links_name">Reported Post</span>
+          </a>
+          <span class="tooltip">Reported Post</span>
+        </li>
+        <li>
+          <a href="/user">
+            <i class="bx bx-user"></i>
+            <span class="links_name">User</span>
+          </a>
+          <span class="tooltip">User</span>
+        </li>
+        <li>
+          <a href="/user_report">
+            <i class="bx bx-user-check"></i>
+            <span class="links_name">Reported User</span>
+          </a>
+          <span class="tooltip">Reported User</span>
+        </li>
+        <li>
+          <a href="/price">
+            <i class="bx bx-cart-alt"></i>
+            <span class="links_name">Price</span>
+          </a>
+          <span class="tooltip">Price</span>
+        </li>
+        <!-- <li>
+          <a href="#">
+            <i class="bx bx-cog"></i>
+            <span class="links_name">Setting</span>
+          </a>
+          <span class="tooltip">Setting</span>
+        </li> -->
+        <li class="profile">
+          <div class="profile-details">
+            <img src="static/img/profile.png" alt="profileImg" />
+            <div class="name_job">
+              <div class="name">{{user}}</div>
+              <div class="job">Admin</div>
+            </div>
+            <a href="/logout">
+              <i class="bx bx-log-out" id="log_out"></i>
+            </a>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <section class="home-section">{%block content %} {%endblock%}</section>
+
+    <script src="static/js/script2.js"></script>
+  </body>
+</html>

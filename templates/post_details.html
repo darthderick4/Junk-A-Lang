@@ -1,0 +1,43 @@
+{% extends 'head.html'%} {% block content %}
+<h3 class="i-name">User Post Details</h3>
+<div class="values">
+  <!-- <p>Email:{{email}}</p>
+  <br />
+  <p>Name: {{f_name}} {{l_name}}</p>
+  <br />
+  <p>Description: {{desc}}</p>
+  <br />
+  <p>Date: {{date}}</p>
+  <br /> -->
+  <!-- post picture -->
+  <!-- <p>Post Picture</p>
+  <br />
+  <img src="{{image}}" alt="" />
+  <br /> -->
+  <!-- user picture -->
+  <!-- <p>User Profile</p>
+  <br />
+  <img src="{{user_profile}}" alt="" />
+</div> -->
+
+  <div class="container text-item">
+    <div class="profile-header">
+      <div class="profile-img">
+        <img src="{{user_profile}}" alt="" width="200" />
+      </div>
+      <div class="profile-nav-info">
+        <h3 class="user-name" style="text-align: center">
+          {{f_name}} {{l_name}}
+        </h3>
+        <div class="address">
+          <p class="state" style="text-align: center">{{email}}</p>
+          <p class="state">{{date}}</p>
+          <p class="state">{{desc}}</p>
+          <img src="{{image}}" alt="" width="200" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endblock %}
+</div>

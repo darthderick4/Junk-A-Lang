@@ -1,0 +1,116 @@
+{%extends 'head.html'%}{%block content%}
+<h3 class="i-name">Dashboard</h3>
+
+<!-- Pending -->
+<div class="values">
+  <div class="val-box">
+    <i class="bx bx-user"></i>
+    <div>
+      <h3>{{t_pending}}</h3>
+      <span>Pending Post</span>
+    </div>
+  </div>
+  <!-- posted -->
+  <div class="val-box">
+    <i class="bx bx-pie-chart-alt-2"></i>
+    <div>
+      <h3>{{t_post}}</h3>
+      <span>Posted Junk</span>
+    </div>
+  </div>
+
+  <!-- reported junk -->
+
+  <div class="val-box">
+    <i class="bx bx-folder"></i>
+    <div>
+      <h3>{{t_report}}</h3>
+      <span>Reported Junk</span>
+    </div>
+  </div>
+</div>
+
+<!-- 2 -->
+
+<div class="values">
+  <div class="val-box">
+    <i class="bx bx-user"></i>
+    <div>
+      <h3>{{t_user}}</h3>
+      <span>Total App User</span>
+    </div>
+  </div>
+
+  <div class="val-box">
+    <i class="bx bx-pie-chart-alt-2"></i>
+    <div>
+      <h3>{{t_sold}}</h3>
+      <span>Buyer-to-Seller Completed Transaction</span>
+    </div>
+  </div>
+
+  <div class="val-box">
+    <i class="bx bx-folder"></i>
+    <div>
+      <h3>{{t_report_comment}}</h3>
+      <span>Reported Comment</span>
+    </div>
+  </div>
+</div>
+
+<!-- chart 1 -->
+<!-- <div class="values">
+  <div id="piechart" style="width: 700px; padding-left: 240px"></div>
+
+  <div class="val-box">
+    <i class="bx bx-folder"></i>
+    <div>
+      <h3>{{t_report}}</h3>
+      <span>Buyer-to-Seller Completed Transaction</span>
+    </div>
+  </div>
+</div>
+
+<script
+  type="text/javascript"
+  src="https://www.gstatic.com/charts/loader.js"
+></script>
+
+<script type="text/javascript">
+      // Load google charts
+      google.charts.load("current", { packages: ["corechart"] });
+      google.charts.setOnLoadCallback(drawChart);
+
+  var t_buyer= {{t_buyer}};
+  var t_seller = {{t_seller}};
+      // Draw the chart and set the chart values
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ["Users", "Total"],
+          ["Buyer", t_buyer],
+          ["Seller", t_seller],
+        ]);
+
+        // Optional; add a title and set the width and height of the chart
+        var options = {
+          title: "Total Registered Users",
+          width: 450,
+          height: 400,
+          // value-and-percentage
+          pieSliceText: 'value',
+          pieSliceTextStyle: { color: '#fff', fontSize: 25},
+          colors:["#B5ACCE", "#61B036"],
+          chartArea: { top:100, left:50,'width': '100%', 'height': '100%' },
+        };
+
+
+        // Display the chart inside the <div> element with id="piechart"
+        var chart = new google.visualization.PieChart(
+          document.getElementById("piechart")
+        );
+        chart.draw(data, options);
+
+      }
+</script> -->
+
+{%endblock%}

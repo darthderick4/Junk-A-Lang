@@ -1,0 +1,26 @@
+{% extends 'head.html'%}{% block content%}
+<h3 class="i-name">Pending Post Details</h3>
+<div class="values">
+  <a href="">Back</a>
+  <a href="">Approve</a>
+  <a href="">Delete</a>
+
+  <div class="container text-item">
+    <div class="profile-header">
+      <div class="profile-img">
+        <img src="{{image}}" alt="" width="300" />
+      </div>
+      <div class="profile-nav-info">
+        <h3 class="user-name" style="text-align: center">Post: {{desc}}</h3>
+        <p class="user-name">{{fname}} {{lname}}</p>
+        <div class="address">
+          <p class="state">{{email}}</p>
+          <p class="state">{{date}}</p>
+          <p class="state"></p>
+          <!-- <img src="" alt="" width="200" /> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

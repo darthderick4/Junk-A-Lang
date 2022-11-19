@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Display</title>
+
+    <style>
+      table,
+      th,
+      td {
+        border: 1px solid black;
+      }
+      table.center {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <th>Profile</th>
+        <th>Email</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Post</th>
+        <th>Date</th>
+        <th>View</th>
+        <th>Delete</th>
+      </tr>
+      {% for name in names %} {% if "Post" in name.val()%}
+      <tr>
+        <td><img src="{{name.val()['profile']}}" alt="" /></td>
+        <td>{{name.val()['email']}}</td>
+        <td>{{name.val()['firstname']}} {{name.val()['lastname']}}</td>
+        <td>{{name.val()['categories']}}</td>
+        {%for p in post%} {% if p in name.val()['Post'] %}
+        <td>
+          <img
+            src="{{name.val()['Post'][p]['imageUrl']}}"
+            alt=""
+          />{{name.val()['Post'][p]['description']}}
+        </td>
+        <td>{{name.val()['Post'][p]['date']}}</td>
+        {% endif %} {% endfor %}
+        <td>View</td>
+        <td>Delete</td>
+      </tr>
+      {% endif %} {% endfor %}
+    </table>
+
+    <div></div>
+  </body>
+</html>
+[name.val()['Post'].keys()]
+name.val()['Post']['-N9kBa6gtGKTInMtLigc']['description']
